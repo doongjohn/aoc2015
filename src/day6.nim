@@ -19,7 +19,7 @@ iterator iterSquareArea[T](grid: var Grid[T], p1, p2: Pos): var T =
       yield grid[y][x]
 
 proc puzzle1* =
-  const commands = ["turn on", "turn off", "toggle"]
+  const commands = [ "turn on", "turn off", "toggle" ]
   var grid: Grid[bool]
 
   # print answer
@@ -58,7 +58,7 @@ proc puzzle1* =
         discard
 
 proc puzzle2* =
-  const commands = ["turn on", "turn off", "toggle"]
+  const commands = [ "turn on", "turn off", "toggle" ]
   var grid: Grid[int]
 
   # print answer
