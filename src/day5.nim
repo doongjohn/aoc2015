@@ -25,6 +25,7 @@ proc puzzle1* =
         if c in "aeiou":
           inc vowelCout
 
+      # check if the string is nice
       if doubleLetter and vowelCout > 2:
         inc nice
 
@@ -40,6 +41,7 @@ proc puzzle2* =
 
     var pairs = initIntSet()
     var prevPair = 0
+
     template pairToInt(a, b: char): int =
       a.int * 1000 + b.int
 
@@ -47,6 +49,7 @@ proc puzzle2* =
       # check rule1
       if not rule1 and i < line.high:
         let hash = pairToInt(c, line[i + 1])
+        # check overlaping; aaa (aa, but it overlaps)
         if hash in pairs and hash != prevPair:
           rule1 = true
         pairs.incl hash
@@ -57,6 +60,7 @@ proc puzzle2* =
         if c == line[i + 2]:
           rule2 = true
 
+      # check if the string is nice
       if rule1 and rule2:
         inc nice
         break
