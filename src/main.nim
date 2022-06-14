@@ -22,7 +22,7 @@ proc main =
   # day6.puzzle2()
   # day7.puzzle1()
   # day7.puzzle2()
-  day8.puzzle1()
-  # day8.puzzle2()
+  # day8.puzzle1()
+  day8.puzzle2()
 
 main()

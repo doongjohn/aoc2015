@@ -182,6 +182,9 @@ proc puzzle1* =
   # this list contains all `wire index` that is used
   var wireIndices: seq[uint16]
 
+  # TODO: think about dependency resolution
+  # var deps: seq[]
+
   # this array contains values of the wire
   # the index is the `wire id`
   # a ~ zz (1 ~ 2626)
