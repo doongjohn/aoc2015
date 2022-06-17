@@ -6,7 +6,8 @@
 # import day6
 # import day7
 # import day8
-import day9
+# import day9
+import day10
 
 proc main =
   # day1.puzzle1()
@@ -26,6 +27,8 @@ proc main =
   # day8.puzzle1()
   # day8.puzzle2()
   # day9.puzzle1()
-  day9.puzzle2()
+  # day9.puzzle2()
+  # day10.puzzle1()
+  day10.puzzle2()
 
 main()

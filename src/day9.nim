@@ -3,6 +3,13 @@ import std/tables
 import std/strscans
 import std/strformat
 
+# idea
+# 1. get all the possible path that visits all nodes
+# 2. get the shortest path among those
+
+# TODO: learn from others
+# https://www.reddit.com/r/adventofcode/comments/3w192e/day_9_solutions/
+
 type Node = tuple
   name: string
   dist: int
