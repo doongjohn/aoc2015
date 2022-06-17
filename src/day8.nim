@@ -1,7 +1,7 @@
 proc puzzle1* =
   var result = 0
 
-  # print result
+  # print result: 1342
   defer: echo result
 
   for line in lines("input/day8.txt"):
@@ -21,16 +21,16 @@ proc puzzle1* =
 proc puzzle2* =
   var result = 0
 
-  # print result
+  # print result: 2074
   defer: echo result
 
   for line in lines("input/day8.txt"):
-    var actual = 0
+    var encoded = 0
     var i = 0
     while i < line.len and line[i] != '\n':
-      inc actual
+      inc encoded
       if line[i] in ['\\', '\"']:
-        inc actual
+        inc encoded
       inc i
     # add 2 for the opening and closing "
-    result +=  actual + 2 - line.len
+    result +=  encoded + 2 - line.len
