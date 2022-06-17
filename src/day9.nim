@@ -17,6 +17,7 @@ proc getAllSimplePath(graph: Table[string, seq[Node]], source, dest: string): se
   var localPath = newSeq[string]()
 
   # TODO: change this code to iterative
+  # code reference: https://www.geeksforgeeks.org/find-paths-given-source-destination/
   proc rec(graph: Table[string, seq[Node]], source, dest: string, localPath: var seq[string], result: var seq[seq[string]]) =
     if source == dest:
       # add to the result if this path visits all nodes
@@ -41,7 +42,7 @@ proc parseInputData(graph: var Table[string, seq[Node]]) =
     "London to Dublin = 464",
     "London to Belfast = 518",
     "Dublin to Belfast = 141"
-  ];
+  ]
 
   # for line in testInput:
   for line in lines("input/day9.txt"):
