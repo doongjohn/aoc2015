@@ -32,9 +32,12 @@ proc puzzle1* =
         sign = 1
       isPrevNum = false
 
-proc findInObject(input, find: string): int =
-  result = -1
-  let findstr = ":\"{find}\"".fmt
+proc findValueInObject(input, value: string): int =
+  result = -1 # end position of this object
+              # result > 0 (found)
+              # result = -1 (not found)
+
+  let findstr = ":\"{value}\"".fmt
   let length = findstr.high
 
   var i = 0
@@ -72,7 +75,7 @@ proc puzzle2* =
     defer: inc i
 
     if input[i] in "{":
-      let redObjEnd = input[i .. ^1].findInObject("red")
+      let redObjEnd = input[i .. ^1].findValueInObject("red")
       if redObjEnd > 0:
         i += redObjEnd
         continue
