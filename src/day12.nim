@@ -15,6 +15,7 @@ proc puzzle1* =
   var sign = 1
   var isPrevNum = false
 
+  # read character by character
   var c: char
   while (c = inputs.readChar(); c) != '\0':
     if c in '0' .. '9':
@@ -33,7 +34,7 @@ proc puzzle1* =
       isPrevNum = false
 
 proc findValueInObject(input, value: string): int =
-  result = -1 # end position of this object
+  result = -1 # --> end position of this object
               # result > 0 (found)
               # result = -1 (not found)
 
@@ -63,8 +64,6 @@ proc findValueInObject(input, value: string): int =
 
 proc puzzle2* =
   let input = readFile("input/day12.txt")
-  # let input = """[1,{"a":{"a":1},"b":"red",{1}},1],{1,"a":"red"}"""
-
   var sum = 0
 
   # print answer: 65402
@@ -74,12 +73,14 @@ proc puzzle2* =
   while i < input.len:
     defer: inc i
 
+    # check if object contains "red"
     if input[i] in "{":
       let redObjEnd = input[i .. ^1].findValueInObject("red")
       if redObjEnd > 0:
         i += redObjEnd
         continue
 
+    # parse int
     if input[i] == '-' or input[i] in '0' .. '9':
       var num = 0
       let numParsed = input.parseInt(num, i)
