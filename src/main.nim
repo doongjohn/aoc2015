@@ -1,7 +1,8 @@
-import day12
+import day13
 
 proc main =
-  # day12.puzzle1()
-  day12.puzzle2()
+  # day13.puzzle1()
+  day13.puzzle2()
+  discard
 
 main()
