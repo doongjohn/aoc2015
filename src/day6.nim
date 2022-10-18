@@ -1,15 +1,20 @@
-import std/strscans
-import std/strutils
+import std/[
+  strscans,
+  strutils,
+]
+
 
 type
   Grid[T] = array[1000, array[1000, T]]
 
   Pos = tuple[x, y: int]
 
+
 iterator iterAll[T](grid: var Grid[T]): var T =
   for y in 0 ..< 1000:
     for x in 0 ..< 1000:
       yield grid[y][x]
+
 
 iterator iterSquareArea[T](grid: var Grid[T], p1, p2: Pos): var T =
   # p1: top left
@@ -17,6 +22,7 @@ iterator iterSquareArea[T](grid: var Grid[T], p1, p2: Pos): var T =
   for y in p1.y .. p2.y:
     for x in p1.x .. p2.x:
       yield grid[y][x]
+
 
 proc puzzle1* =
   const commands = [ "turn on", "turn off", "toggle" ]
@@ -56,6 +62,7 @@ proc puzzle1* =
           e = not e
       else:
         discard
+
 
 proc puzzle2* =
   const commands = [ "turn on", "turn off", "toggle" ]

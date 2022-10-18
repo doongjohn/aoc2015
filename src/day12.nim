@@ -1,6 +1,9 @@
-import std/streams
-import std/strformat
-import std/parseutils
+import std/[
+  streams,
+  strformat,
+  parseutils,
+]
+
 
 proc puzzle1* =
   var inputs = openFileStream("input/day12.txt")
@@ -33,6 +36,7 @@ proc puzzle1* =
         sign = 1
       isPrevNum = false
 
+
 proc findValueInObject(input, value: string): int =
   result = -1 # --> end position of this object
               # result > 0 (found)
@@ -61,6 +65,7 @@ proc findValueInObject(input, value: string): int =
 
     if i + length < input.len and input[i .. i + length] == findstr:
       found = true
+
 
 proc puzzle2* =
   let input = readFile("input/day12.txt")

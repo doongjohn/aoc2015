@@ -1,5 +1,6 @@
 import std/intsets
 
+
 proc puzzle1* =
   var nice = 0
 
@@ -28,6 +29,7 @@ proc puzzle1* =
       # check if the string is nice
       if doubleLetter and vowelCout > 2:
         inc nice
+
 
 proc puzzle2* =
   var nice = 0

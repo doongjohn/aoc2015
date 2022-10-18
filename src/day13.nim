@@ -1,7 +1,10 @@
-import std/math
-import std/streams
-import std/strscans
-import std/algorithm
+import std/[
+  math,
+  streams,
+  strscans,
+  algorithm,
+]
+
 
 proc puzzle1* =
   var inputs = openFileStream("input/day13.txt")
@@ -36,10 +39,12 @@ proc puzzle1* =
     var total = 0
     all[1 .. ^1] = index
     for i, name in all:
-      var right = all[floorMod(i + 1, 8)]
-      var left = all[floorMod(i - 1, 8)]
-      total += pref[name][(if name <= right: dec right; right)]
-      total += pref[name][(if name <= left: dec left; left)]
+      var right = all[floorMod(i + 1, 8)] # right index
+      var left = all[floorMod(i - 1, 8)] # left index
+      if name <= right: dec right
+      if name <= left: dec left
+      total += pref[name][right]
+      total += pref[name][left]
     total
 
   while true:
@@ -48,9 +53,9 @@ proc puzzle1* =
     if not index.nextPermutation():
       break
 
+
 proc puzzle2* =
   # TODO: keep 7 factorial
-
   var inputs = openFileStream("input/day13.txt")
   defer: close inputs
 
@@ -88,8 +93,10 @@ proc puzzle2* =
     for i, name in all:
       var right = all[floorMod(i + 1, 9)]
       var left = all[floorMod(i - 1, 9)]
-      total += pref[name][(if name <= right: dec right; right)]
-      total += pref[name][(if name <= left: dec left; left)]
+      if name <= right: dec right
+      if name <= left: dec left
+      total += pref[name][right]
+      total += pref[name][left]
     total
 
   while true:

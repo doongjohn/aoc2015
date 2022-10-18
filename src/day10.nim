@@ -1,5 +1,8 @@
-import std/strutils
-import std/strformat
+import std/[
+  strutils,
+  strformat,
+]
+
 
 func lookAndSay(input: string): string =
   # look and say
@@ -21,6 +24,7 @@ func lookAndSay(input: string): string =
       count = 1
   result.add "{count}{curChar}".fmt
 
+
 proc puzzle1* =
   let input = readFile("input/day10.txt").strip
 
@@ -31,6 +35,7 @@ proc puzzle1* =
 
   for _ in 0 ..< 40:
     result = lookAndSay(result)
+
 
 proc puzzle2* =
   let input = readFile("input/day10.txt").strip

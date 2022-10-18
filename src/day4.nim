@@ -1,5 +1,8 @@
-import std/strutils
-import std/md5
+import std/[
+  strutils,
+  md5,
+]
+
 
 proc puzzle1* =
   let input = readFile("input/day4.txt").strip
@@ -12,6 +15,7 @@ proc puzzle1* =
   while not hash.startsWith('0'.repeat(5)):
     hash = getMD5(input & $answer)
     inc answer
+
 
 proc puzzle2* =
   let input = readFile("input/day4.txt").strip

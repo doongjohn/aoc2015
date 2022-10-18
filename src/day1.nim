@@ -12,6 +12,7 @@ proc puzzle1* =
     else:
       discard
 
+
 proc puzzle2* =
   let input = readFile("input/day1.txt")
   var floor = 0

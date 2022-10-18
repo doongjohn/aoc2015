@@ -1,5 +1,8 @@
-import std/streams
-import std/sets
+import std/[
+  streams,
+  sets,
+]
+
 
 proc move(c: char, pos: var tuple[x, y: int]) =
   case c:
@@ -9,6 +12,7 @@ proc move(c: char, pos: var tuple[x, y: int]) =
   of '<': dec pos.x
   else:
     discard
+
 
 proc puzzle1* =
   var visited = [(x: 0, y: 0)].toHashSet
@@ -28,6 +32,7 @@ proc puzzle1* =
     if pos notin visited:
       visited.incl pos
       inc houses
+
 
 proc puzzle2* =
   var visited = [(x: 0, y: 0)].toHashSet

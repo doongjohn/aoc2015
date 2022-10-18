@@ -1,11 +1,12 @@
-import std/algorithm
-import std/options
-import std/strformat
-import std/strutils
+import std/[
+  algorithm,
+  options,
+  strformat,
+  strutils,
+]
+
 
 type
-  StringView = openArray[char]
-
   ParseResult[T] = tuple
     read: int
     value: T
@@ -25,7 +26,10 @@ type
     kind: OperandKind
     val: uint16
 
-proc idToIndex(id: StringView): uint16 {.inline.} =
+  StringView = openArray[char]
+
+
+proc idToIndex(id: StringView): uint16 =
   if id.len == 1:
     result = id[0].uint16 - 96.uint16
   elif id.len == 2:
@@ -34,15 +38,18 @@ proc idToIndex(id: StringView): uint16 {.inline.} =
     # this is impossible because the max length of the `wire id` is 2
     result = 0
 
-proc indexToId(index: SomeInteger): string {.inline.} =
+
+proc indexToId(index: SomeInteger): string =
   if index > 99:
     result.add ((index div 100) + 96).char
     result.add ((index mod 100) + 96).char
   else:
     result.add (index + 96).char
 
-template getValueOf(valueMap: typed, id: openArray[char]): untyped =
+
+template getValueOf(valueMap: typed, id: StringView): untyped =
   valueMap[id.idToIndex]
+
 
 # get the actual value of the `Operand`
 template get(operand: Operand, table: typed): Option[uint16] =
@@ -52,6 +59,7 @@ template get(operand: Operand, table: typed): Option[uint16] =
   of OperandKind.number:
     some operand.val
 
+
 # convert `Operand` to string representation
 proc `$`(operand: Operand): string =
   case operand.kind:
@@ -60,13 +68,17 @@ proc `$`(operand: Operand): string =
   of OperandKind.number:
     $operand.val
 
+
 # similar to std/parseutils `parseInt` but simpler and generic
 proc parseInteger[T: SomeInteger](str: StringView, num: var T): int =
+  result = 0 # parsed character count
   num = 0
   for c in str:
-    if c notin '0' .. '9': return
+    if c notin '0' .. '9':
+      return
     num = num * 10 + (c.ord - '0'.ord).T
     inc result
+
 
 proc parseOperand(input: StringView): ParseResult[Operand] =
   # parse number literal
@@ -85,50 +97,58 @@ proc parseOperand(input: StringView): ParseResult[Operand] =
     result.value = Operand(kind: OperandKind.id, val: val)
     return
 
+
 proc parseOperator(input: StringView): ParseResult[Operator] =
   for i, op in [ "NOT", "AND", "OR", "LSHIFT", "RSHIFT" ]:
     if input.toOpenArray(0, op.high) == op:
       return (op.len + 1, i.Operator)
 
+
 # parse string from `0` to `str.high`
-template parseWhole(str: StringView, parseProc: typed): untyped =
-  let (read, value) = parseProc str
+template parseAll(str: StringView, parseProc: typed): untyped =
+  let (read, value) = str.parseProc()
   if read < str.len:
     return
   value
 
+
 # parse string from `pos`
 template parse(str: StringView, pos: int, parseProc: typed): untyped =
-  let (read, value) = parseProc str.toOpenArray(pos, str.high)
+  let (read, value) = str.toOpenArray(pos, str.high).parseProc()
   if read != 0 and pos + read < str.len:
     pos += read
   else:
     return
   value
 
+
 # parse string from `pos` to `str.high`
-template parseLast(str: StringView, pos, parseProc: typed): untyped =
-  let (read, value) = parseProc str.toOpenArray(pos, str.high)
+template parseToEnd(str: StringView, pos, parseProc: typed): untyped =
+  let (read, value) = str.toOpenArray(pos, str.high).parseProc()
   if pos + read < str.len:
     return
   value
 
+
 proc parseInstrAssign(str: string): Option[Operand] =
-  let operand = str.parseWhole(parseOperand)
+  let operand = str.parseAll(parseOperand)
   result = some operand
+
 
 proc parseInstrPrefix(str: StringView): Option[tuple[op: Operator, target: Operand]] =
   var pos = 0
   let operator = str.parse(pos, parseOperator)
-  let operand = str.parseLast(pos, parseOperand)
+  let operand = str.parseToEnd(pos, parseOperand)
   result = some (operator, operand)
+
 
 proc parseInstrInfix(str: StringView): Option[tuple[op: Operator, lhs, rhs: Operand]] =
   var pos = 0
   let lhs = str.parse(pos, parseOperand)
   let operator = str.parse(pos, parseOperator)
-  let rhs = str.parseLast(pos, parseOperand)
+  let rhs = str.parseToEnd(pos, parseOperand)
   result = some (operator, lhs, rhs)
+
 
 template runInstrAssign(
   instr: Operand,
@@ -139,6 +159,7 @@ template runInstrAssign(
   let val = operand.get valueMap
   if val.isSome:
     valueMap[i] = val
+
 
 template runInstrPrefix(
   instr: tuple[op: Operator, target: Operand],
@@ -154,6 +175,7 @@ template runInstrPrefix(
       some not val
     else:
       none uint16
+
 
 template runInstrInfix(
   instr: tuple[op: Operator, lhs, rhs: Operand],
@@ -178,12 +200,10 @@ template runInstrInfix(
     else:
       none uint16
 
+
 proc puzzle1* =
   # this list contains all `wire index` that is used
   var wireIndices: seq[uint16]
-
-  # TODO: think about dependency resolution
-  # var deps: seq[]
 
   # this array contains values of the wire
   # the index is the `wire id`
@@ -234,11 +254,12 @@ proc puzzle1* =
           `runInstr op`(instr.get, values, i)
 
   # loop until wire `a` has a value
-  # HACK: optimize this
+  # HACK: optimize this (use dependency resolution)
   while values[1].isNone:
     tryRunInstr Assign
     tryRunInstr Prefix
     tryRunInstr Infix
+
 
 proc puzzle2* =
   # this list contains all `wire index` that is used
@@ -295,7 +316,7 @@ proc puzzle2* =
           `runInstr op`(instr.get, values, i)
 
   # loop until wire `a` has a value
-  # HACK: optimize this
+  # HACK: optimize this (use dependency resolution)
   while values[1].isNone:
     tryRunInstr Assign
     tryRunInstr Prefix

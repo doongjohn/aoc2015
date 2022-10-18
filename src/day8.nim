@@ -18,6 +18,7 @@ proc puzzle1* =
         inc i
     result += line.len - actual
 
+
 proc puzzle2* =
   var result = 0
 

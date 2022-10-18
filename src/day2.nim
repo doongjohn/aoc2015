@@ -1,5 +1,6 @@
 import std/strscans
 
+
 proc puzzle1* =
   var total = 0
 
@@ -14,6 +15,7 @@ proc puzzle1* =
       let s3 = h * l
       total += 2 * (s1 + s2 + s3)
       total += min([s1, s2, s3])
+
 
 proc puzzle2* =
   var total = 0

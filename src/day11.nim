@@ -1,5 +1,6 @@
 import std/strutils
 
+
 proc incrementLowerCaseString(password: var string) =
   for i in countdown(password.high, 0):
     password[i] = (password[i].ord + 1).char
@@ -7,6 +8,7 @@ proc incrementLowerCaseString(password: var string) =
       password[i] = 'a'
     else:
       break
+
 
 proc makeNextPassword(currentPassword: string): string =
   var password = currentPassword
@@ -49,11 +51,13 @@ proc makeNextPassword(currentPassword: string): string =
 
   result = password
 
+
 proc puzzle1* =
   var password = readFile("input/day11.txt").strip
 
   # print answer: vzbxxyzz
   echo password.makeNextPassword()
+
 
 proc puzzle2* =
   var password = "vzbxxyzz"
